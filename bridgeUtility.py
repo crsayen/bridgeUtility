@@ -31,6 +31,8 @@ class App:
         self.startCarBtn = tk.Button(self.root, text="start with car config", command=self.startCar)
         self.startCarBtn.pack()
         self.startToolBtn = tk.Button(self.root, text="start with tool config", command=self.startTool)
+        self.checkToolBtn.pack()
+        self.checkToolBtn = tk.Button(self.root, text="check tool status", command=self.checkTool)
         self.startToolBtn.pack()
         self.stopBtn = tk.Button(self.root, text="start", command=self.stop)
         self.stopBtn['state'] = 'disabled'
@@ -54,6 +56,10 @@ class App:
         self.stopBtn['state'] = 'enabled'
         self.startCarBtn['state'] = 'disabled'
         self.startToolBtn['state'] = 'disabled'
+
+    def checkTool(self):
+        self.ssh.connect(hostname=ssh_ip, username=ssh_uname, password=ssh_pass)
+        self.ssh.exec_command('/usr/bin/python3.8 dev/node-can-bridge/check.py')
     
     def stop(self):
         self.ssh.close()
